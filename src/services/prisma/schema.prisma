@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Planet {
-  keplerName String   @id
+  keplerName String @default(uuid()) @id
   Launch     Launch[]
 }
 
 model Launch {
-  flightNumber Int @id
+  launchId String @default(uuid()) @id
 
   launchDate DateTime
 
   mission String
 
-  rocket String
+  rocket String @unique
 
   customers String[]
 
@@ -33,4 +33,6 @@ model Launch {
   destinationName String
 
   destination Planet @relation(fields: [destinationName], references: [keplerName])
+
+  createdAt DateTime @default(now())
 }
