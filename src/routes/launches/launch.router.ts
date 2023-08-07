@@ -6,7 +6,9 @@ import { httpGetAllScheduledLaunches,
 
 export const launchesRouter = express.Router();
 
-launchesRouter.get('/', httpGetAllScheduledLaunches);
-launchesRouter.get('/latest', httpGetLatestLaunch);
-launchesRouter.post('/', httpScheduleLaunch);
-launchesRouter.delete('/abort', httpAbortLaunch);
+launchesRouter.use(express.json());
+
+launchesRouter.get('/getAll', httpGetAllScheduledLaunches);
+launchesRouter.get('/getLatest', httpGetLatestLaunch);
+launchesRouter.post('/add', httpScheduleLaunch);
+launchesRouter.post('/abort', httpAbortLaunch);

@@ -21,7 +21,7 @@ export function loadPlanetsData() {
                 }
             })
             .on('end', () => {
-                console.log("done!");
+                console.log("Habitable planets have been loaded!");
             });
     } catch (err) {
         console.log(err);
@@ -29,17 +29,28 @@ export function loadPlanetsData() {
 }
 
 export async function getAllPlanets() {
-    const planets: Planet[] = await prisma.planet.findMany();
-    return planets;
+    return await prisma.planet.findMany();
 }
 
 async function savePlanet(planetData: any) {
     try {
-        await prisma.planet.create({
-            data: {
+        const queryResult: Planet | null = await prisma.planet.findUnique({
+            where: {
                 keplerName: planetData.kepler_name,
             },
         });
+        if (typeof queryResult === null ) {
+            await prisma.planet.create({
+                data: {
+                    keplerName: planetData.kepler_name,
+                },
+            });
+            return;
+        }
+        else {
+            //console.log(`Planet ${planetData.kepler_name} already exists!`);
+            return;
+        }
     } catch (err) {
         //console.log(err);
         console.log(`Could not save planet ${planetData.kepler_name}`);
