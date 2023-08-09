@@ -9,7 +9,7 @@ import { planetsRouter } from './routes/planets/planet.router';
 import { launchesRouter } from './routes/launches/launch.router';
 const prisma: PrismaClient = new PrismaClient();
 
-const app: Express = express();
+export const app: Express = express();
 const PORT: Number = Number(process.env.PORT) || 5000;
 
 app.use('/planets', planetsRouter);

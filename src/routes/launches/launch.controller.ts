@@ -6,7 +6,8 @@ export async function httpGetAllScheduledLaunches(_: Request, res: Response) {
 }
 
 export async function httpGetLatestLaunch(_: Request, res: Response) {
-    return res.status(200).json(await getLatestLaunch());
+    if (!await getLatestLaunch()) return res.status(404).json({ error: "No launches exist" });
+    else return res.status(200).json(await getLatestLaunch());
 }
 
 export async function httpScheduleLaunch(req: Request, res: Response) {
